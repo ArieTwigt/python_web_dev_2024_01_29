@@ -26,8 +26,8 @@ def index():
             data = request.form
 
             # create a new prediction request object: <TODO> add username
-            selected_country_code = data['country_code']
-            selected_city = data['city']
+            selected_country_code = data['country_code'].upper()
+            selected_city = data['city'].lower().capitalize()
             prediction_request = PredictionRequest(username="test",
                                                 country_code=selected_country_code,
                                                 city=selected_city)
@@ -116,3 +116,22 @@ def edit_prediction_request(id):
     return render_template('edit_prediction_request.html', 
                             prediction_request=prediction_request,
                             form=form)
+
+
+# delete an existing prediction request
+@app.route('/delete_prediction_request/<id>', methods=['GET', 'POST'])
+def delete_prediction_request(id):
+    
+        # get the prediction request object
+        prediction_request = PredictionRequest.query.get(id)
+    
+        # create form object
+        form = PredictionRequestForm(obj=prediction_request)
+    
+        # delete the prediction request
+        db.session.delete(prediction_request)
+        db.session.commit()
+        flash('Prediction request deleted successfully', 'secondary')
+
+        # redirect to index
+        return redirect(url_for('index'))
