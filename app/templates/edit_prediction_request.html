@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header"> Edit prediction request</div>
+            <div class="card-body">
+                {% include '_flashes.html' %}
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="top-margin">
+                        <label for="country_code" class="form-label">Country Code:</label>
+                        {{ form.country_code(size=32, class="form-control") }}
+                    </div>
+                    <div class="top-margin">
+                        <label for="city" class="form-label">City:</label>
+                        {% for error in form.city.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                        {{ form.city(size=32, class="form-control") }}
+                    </div>
+                    <div class="top-margin">
+                        {{ form.submit(class="btn btn-primary", style="margin-top: 5px;") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

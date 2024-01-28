@@ -81,3 +81,38 @@ def get_weather_data():
                             selected_city=city,
                             selected_country_code=country_code,
                             prediction_requests=prediction_requests)
+
+
+# edit an existing prediction request
+@app.route('/edit_prediction_request/<id>', methods=['GET', 'POST'])
+def edit_prediction_request(id):
+
+    # get the prediction request object
+    prediction_request = PredictionRequest.query.get(id)
+
+    # create form object
+    form = PredictionRequestForm(obj=prediction_request)
+
+    if request.method == 'POST':
+
+        if form.validate_on_submit():
+            # Update and save the edited data
+            prediction_request.country_code = form.country_code.data
+            prediction_request.city = form.city.data
+
+            # save the new prediction request object
+            db.session.commit()
+            flash('Prediction request updated successfully', 'success')
+
+            # redirect to index
+            return redirect(url_for('index'))
+        else:
+            flash('Something went wrong', 'danger')
+            return render_template('edit_prediction_request.html', 
+                                    prediction_request=prediction_request,
+                                    form=form)
+
+    # return the data to the page
+    return render_template('edit_prediction_request.html', 
+                            prediction_request=prediction_request,
+                            form=form)

@@ -1,3 +1,10 @@
 .top-margin {
     margin-top: 10px;
 }
+
+.saved_prediction {
+    width: 50%;
+    color: white !important;
+    background-color: cadetblue !important;
+    font-weight: bold;
+}

@@ -36,9 +36,12 @@
                     {% if prediction_requests is defined %}
                         <ul class="list-unstyled">
                             {% for prediction in prediction_requests %}
+
                             <li class="top-margin">
+                                <a href="/edit_prediction_request/{{ prediction.id }}" 
+                                   class="btn btn-warning">EDIT</a>
                                 <button type="submit" 
-                                        class="btn btn-primary" 
+                                        class="btn btn-primary saved_prediction" 
                                         form="get_weather_data_form"
                                         name="prediction_id"
                                         value="{{ prediction.id }}">
