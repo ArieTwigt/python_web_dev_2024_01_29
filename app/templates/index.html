@@ -10,7 +10,7 @@
             <div class="card-header">New Prediction</div>
             <div class="card-body">
                 {% include '_flashes.html' %}
-                <form method="post">
+                <form method="post" action="/">
                     {{ form.hidden_tag() }}
                     <div class="top-margin">
                         <label for="country_code" class="form-label">Country Code:</label>
@@ -29,37 +29,60 @@
                 </form>
             </div>
         </div>
-    </div>
-    <div class="col-md-9">
         <div class="card">
-            <div class="card-header">Predictions</div>
-            <div class="card-body">
-                {% if predictions_dict is defined %}
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th> Date </th>
-                                <th> Description </th>
-                                <th> Temperature </th>
-                                <th> Feels like </th>
-                                <th> Rain </th>
-                            </tr>
-                        </thead>
-                    {% for key, value in predictions_dict.items() %}
-                        <tr>
-                            <td>{{key}}</td>
-                            <td>{{value['description']}}</td>
-                            <td>{{value['temperature']}}</td>
-                            <td>{{value['feels_like']}}</td>
-                            <td>{{value['rain']}}</td>
-                        </tr>
-                    {% endfor %}
-                    </table>
-
-                {% endif %}
+            <form method="POST" action="get_weather_data" id="get_weather_data_form"></form>
+            <div class="card-header">Saved Predictions</div>
+                <div class="card-body">
+                    {% if prediction_requests is defined %}
+                        <ul class="list-unstyled">
+                            {% for prediction in prediction_requests %}
+                            <li class="top-margin">
+                                <button type="submit" 
+                                        class="btn btn-primary" 
+                                        form="get_weather_data_form"
+                                        name="prediction_id"
+                                        value="{{ prediction.id }}">
+                                    {{ prediction.country_code }} {{ prediction.city }}
+                                </button>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        <p>No predictions saved yet</p>
+                    {% endif %}
+                </div>
             </div>
         </div>
-    </div>
+        <div class="col-md-9">
+            {% if predictions_dict is defined %}
+            <div class="card">
+                <div class="card-header">Weather predictions for {{ selected_country_code }} {{ selected_city }}</div>
+                <div class="card-body">
+                    
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th> Date </th>
+                                    <th> Description </th>
+                                    <th> Temperature </th>
+                                    <th> Feels like </th>
+                                    <th> Rain </th>
+                                </tr>
+                            </thead>
+                        {% for key, value in predictions_dict.items() %}
+                            <tr>
+                                <td>{{key}}</td>
+                                <td>{{value['description']}}</td>
+                                <td>{{value['temperature']}}</td>
+                                <td>{{value['feels_like']}}</td>
+                                <td>{{value['rain']}}</td>
+                            </tr>
+                        {% endfor %}
+                        </table>
+                </div>
+            </div>
+            {% endif %}
+        </div>
 </div>
 
 {% endblock %}
