@@ -4,6 +4,9 @@ from app import app, db
 from app.forms import PredictionRequestForm
 from app.models import PredictionRequest
 
+from app.utils.import_weather_data import import_weather_by_city
+from app.utils.conversion_functions import convert_dict_to_df
+
 # initial route for the home page
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -44,3 +47,21 @@ def index():
     
     # regular GET request
     return render_template('index.html', form=form)
+
+
+# route for generating a prediction
+@app.route('/get_weather_data', methods=['GET', 'POST'])
+def get_weather_data():
+    # hardcoded country code and city
+    country_code = 'NL'
+    city = 'Amsterdam'
+
+    # import the weather data
+    predictions_dict = import_weather_by_city(city, country_code)
+
+    # create form object
+    form = PredictionRequestForm()
+
+    # return the data to the page
+    return render_template('index.html', predictions_dict=predictions_dict
+                            , form=form)

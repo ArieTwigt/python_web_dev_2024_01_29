@@ -34,7 +34,29 @@
         <div class="card">
             <div class="card-header">Predictions</div>
             <div class="card-body">
-                Placeholder
+                {% if predictions_dict is defined %}
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th> Date </th>
+                                <th> Description </th>
+                                <th> Temperature </th>
+                                <th> Feels like </th>
+                                <th> Rain </th>
+                            </tr>
+                        </thead>
+                    {% for key, value in predictions_dict.items() %}
+                        <tr>
+                            <td>{{key}}</td>
+                            <td>{{value['description']}}</td>
+                            <td>{{value['temperature']}}</td>
+                            <td>{{value['feels_like']}}</td>
+                            <td>{{value['rain']}}</td>
+                        </tr>
+                    {% endfor %}
+                    </table>
+
+                {% endif %}
             </div>
         </div>
     </div>
