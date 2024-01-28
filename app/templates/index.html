@@ -1,0 +1,43 @@
+{% extends "layout.html" %}
+
+
+{% block content %}
+
+<h1> Weather Predictions</h1>
+<div class="row">
+    <div class="col-md-3">
+        <div class="card">
+            <div class="card-header">New Prediction</div>
+            <div class="card-body">
+                {% include '_flashes.html' %}
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <div class="top-margin">
+                        <label for="country_code" class="form-label">Country Code:</label>
+                        {{ form.country_code(size=32, class="form-control") }}
+                    </div>
+                    <div class="top-margin">
+                        <label for="city" class="form-label">City:</label>
+                        {{ form.city(size=32, class="form-control") }}
+                        {% for error in form.city.errors %}
+                            <span style="color: red;">[{{ error }}]</span>
+                        {% endfor %}
+                    </div>
+                    <div class="top-margin">
+                        {{ form.submit(class="btn btn-primary", style="margin-top: 5px;") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-header">Predictions</div>
+            <div class="card-body">
+                Placeholder
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
