@@ -18,10 +18,10 @@
                     </div>
                     <div class="top-margin">
                         <label for="city" class="form-label">City:</label>
-                        {{ form.city(size=32, class="form-control") }}
                         {% for error in form.city.errors %}
                             <span style="color: red;">[{{ error }}]</span>
                         {% endfor %}
+                        {{ form.city(size=32, class="form-control") }}
                     </div>
                     <div class="top-margin">
                         {{ form.submit(class="btn btn-primary", style="margin-top: 5px;") }}
